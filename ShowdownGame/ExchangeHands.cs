@@ -1,32 +1,42 @@
-public class ExchangeHands
+using System;
+
+namespace ShowdownGame
 {
-    private int _countDown = 3;
-
-    private Player _usedPlayer;
-    private Player _targetPlayer;
-
-    public ExchangeHands(Player usedPlayer, Player targetPlayer)
+    public class ExchangeHands
     {
-        _usedPlayer = usedPlayer;
-        _targetPlayer = targetPlayer;
+        private int _countDown = 3;
 
-        Change(_usedPlayer, _targetPlayer);
-    }
+        private readonly Player _usedPlayer;
+        private readonly Player _targetPlayer;
 
-    public void OnEndOfRound()
-    {
-        _countDown--;
-        if (_countDown <= 0)
+        public ExchangeHands(Player usedPlayer, Player targetPlayer)
         {
-            Change(_targetPlayer, _usedPlayer);
-        }
-    }
+            _usedPlayer = usedPlayer;
+            _targetPlayer = targetPlayer;
 
-    void Change(Player from, Player to)
-    {
-        Hand fromHand = from.hand;
-        Hand toHand = to.hand;
-        from.hand = toHand;
-        to.hand = fromHand;
+            Change(_usedPlayer, _targetPlayer);
+        }
+
+        public void OnEndOfRound()
+        {
+            _countDown--;
+            Console.WriteLine($"{_usedPlayer.Name()} countDown {_countDown}");
+            if (_countDown <= 0)
+            {
+                Console.WriteLine("Change Back:");
+                Change(_usedPlayer, _targetPlayer);
+                _usedPlayer.ExchangePrivilege = null;
+            }
+
+        }
+
+        void Change(Player from, Player to)
+        {
+            Console.WriteLine($"{from.Name()} change hand cards with {to.Name()}");
+            Hand fromHand = new Hand(from.hand.Cards);
+            Hand toHand = new Hand(to.hand.Cards);
+            from.hand = toHand;
+            to.hand = fromHand;
+        }
     }
 }

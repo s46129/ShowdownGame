@@ -1,59 +1,67 @@
 using System;
+using System.Collections.Generic;
 
-public abstract class Player
+namespace ShowdownGame
 {
-    protected string _name;
-    private int _point;
-    public Hand hand;
-    private ExchangeHands _exchangePrivilege;
-    public Card SelectedCard;
-
-    public string Name()
+    public abstract class Player
     {
-        return _name;
-    }
+        protected string _name;
+        private int _point;
+        public Hand hand;
+        public ExchangeHands ExchangePrivilege;
+        public bool UsedExChange = false;
+        protected Card SelectedCard;
 
-    public Player(string name = "")
-    {
-        _name = name;
-        _point = 0;
-        hand = new Hand();
-        _exchangePrivilege = null;
-    }
-
-    public abstract void NameHimSelf(string set = null);
-
-    public void ExChange(Player to)
-    {
-        if (_exchangePrivilege != null)
+        public string Name()
         {
-            return;
+            return _name;
         }
 
-        _exchangePrivilege = new ExchangeHands(this, to);
-    }
+        public Player(string name = "")
+        {
+            _name = name;
+            _point = 0;
+            hand = new Hand();
+            ExchangePrivilege = null;
+        }
 
-    public Card Show()
-    {
-        Console.WriteLine($"{_name} show {SelectedCard._suit} {SelectedCard._rank}");
-        return SelectedCard;
-    }
+        public abstract void NameHimSelf(string set = null);
 
-    public abstract void SelectCard();
+        public void ExChange(Player to)
+        {
+            if (UsedExChange)
+            {
+                return;
+            }
 
-    public int GetPoint()
-    {
-        return _point;
-    }
+            UsedExChange = true;
+            ExchangePrivilege = new ExchangeHands(this, to);
+        }
 
-    public void AddPoint()
-    {
-        _point++;
-    }
+        public Card Show()
+        {
+            return SelectedCard;
+        }
 
-    public void CleanCurrentSelect()
-    {
-        hand.Cards.Remove(SelectedCard);
-        SelectedCard = null;
+        public abstract void SelectCard();
+
+        public int GetPoint()
+        {
+            return _point;
+        }
+
+        public void AddPoint()
+        {
+            _point++;
+        }
+
+        public void CleanCurrentSelect()
+        {
+            SelectedCard = null;
+        }
+
+        public abstract bool AskUseExchangeHand();
+
+        public abstract Player SelectPlayer(List<Player> value);
     }
 }

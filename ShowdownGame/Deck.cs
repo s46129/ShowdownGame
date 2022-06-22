@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ShowdownGame;
 
 internal class Deck
 {
@@ -27,7 +28,7 @@ internal class Deck
 
     public Card DrawCard()
     {
-        Card draw = new Card(Cards[0]._suit, Cards[0]._rank);
+        Card draw = new Card(Cards[0].Suit, Cards[0].Rank);
         Cards.RemoveAt(0);
         return draw;
     }

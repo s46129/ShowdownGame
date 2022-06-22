@@ -1,43 +1,53 @@
 using System.Collections.Generic;
 
-public class Card:IComparer<Card>
+namespace ShowdownGame
 {
-    public Suit _suit;
-    public Rank _rank;
-
-    public Card(Suit suit, Rank rank)
+    public class Card : IComparer<Card>
     {
-        _suit = suit;
-        _rank = rank;
+        public readonly Suit Suit;
+        public readonly Rank Rank;
+
+        public Card(Suit suit, Rank rank)
+        {
+            Suit = suit;
+            Rank = rank;
+        }
+
+
+        public int Compare(Card x, Card y)
+        {
+            if (ReferenceEquals(x, y)) return 0;
+            if (ReferenceEquals(null, y)) return 1;
+            if (ReferenceEquals(null, x)) return -1;
+            var rankComparison = x.Rank.CompareTo(y.Rank);
+            if (rankComparison != 0) return rankComparison;
+            return x.Suit.CompareTo(y.Suit);
+        }
     }
 
 
-
-    public int Compare(Card x, Card y)
+    public enum Rank
     {
-        if (ReferenceEquals(x, y)) return 0;
-        if (ReferenceEquals(null, y)) return 1;
-        if (ReferenceEquals(null, x)) return -1;
-        var rankComparison = x._rank.CompareTo(y._rank);
-        if (rankComparison != 0) return rankComparison;
-        return x._suit.CompareTo(y._suit);
+        Two,
+        Three,
+        Fort,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        J,
+        Q,
+        K,
+        A
     }
-}
 
-
-public enum Rank
-{
-    Two,
-    Three,
-    Fort,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine,
-    Ten,
-    J,
-    Q,
-    K,
-    A
+    public enum Suit
+    {
+        Club,
+        Diamond,
+        Heart,
+        Spade,
+    }
 }

@@ -1,18 +1,27 @@
 using System.Collections.Generic;
 
-
-public class Hand
+namespace ShowdownGame
 {
-    public List<Card> Cards;
-
-    public Hand()
+    public class Hand
     {
-        Cards = new List<Card>();
-    }
+        public readonly List<Card> Cards;
+
+        public Hand(List<Card> defaultCards = null)
+        {
+            if (defaultCards == null)
+            {
+                Cards = new List<Card>();
+            }
+            else
+            {
+                Cards = new List<Card>(defaultCards);
+            }
+        }
 
 
-    public void AddCard(Card card)
-    {
-        Cards.Add(card);
+        public void AddCard(Card card)
+        {
+            Cards.Add(card);
+        }
     }
 }
